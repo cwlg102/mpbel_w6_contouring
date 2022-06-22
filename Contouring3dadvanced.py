@@ -24,10 +24,11 @@ while sdx < 21: #len이 안먹혀서
         except: xiplus, yiplus, ziplus = float(ctr_coord_1dim[0]), float(ctr_coord_1dim[1]), float(ctr_coord_1dim[2])
         #####예외, xi, yi, zi가 마지막 일경우, 그냥 pass하면 안되고 첫번째 점과 연결을 시켜주어야함.#####
 
-        largediff = max([abs(xi-xiplus), abs(yi-yiplus), abs(zi-ziplus)])
-        if largediff < 1: #만약 최대 좌표별 길이 차이가 적게나서 1보다 작을 때 largediff를 기본 내분 갯수에 곱하면 내분 갯수가 기본보다 작아짐.
-            largediff = 1
-        indiv = int(10 * largediff) #distance에 따라 weight 가 달라짐
+        #largediff = max([abs(xi-xiplus), abs(yi-yiplus), abs(zi-ziplus)])
+        largedist = ((xi - xiplus)**2 + (yi - yiplus)**2 + (zi - ziplus)**2) ** 0.5
+        if largedist < 1: #만약 길이 차이가 적게나서 1보다 작을 때 largedist를 기본 내분 갯수에 곱하면 내분 갯수가 기본보다 작아짐.
+            largedist = 1
+        indiv = int(20 * largedist) #distance에 따라 weight 가 달라짐
         
         for jdx in range(1, indiv):
             #내분점 공식
@@ -45,7 +46,7 @@ while sdx < 21: #len이 안먹혀서
 x = []
 y = []   
 z = []  
-flag = 1
+flag = 0
 
 if flag == 0:
     ctrx = []
