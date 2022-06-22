@@ -5,12 +5,10 @@ from mpl_toolkits.mplot3d import Axes3D
 dcm = pydicom.dcmread('RTs.dcm')
 all_ctr = dcm.ROIContourSequence #ROIContourSequence로 Contour 좌표 불러올 수 있음.
 
-#ContourSequence 0부터 20까지(21개) - 각 slice
-#print(all_ctr[0].ContourSequence[0].ContourData)
 sdx = 0
 ctr_volume = [] #일단은 리스트로
 
-#내분점 #좌표끼리 거리마다 weight 주는 방법임
+#내분점 #좌표끼리 거리마다 weight 주는 방법
 while sdx < 21: #len이 안먹혀서
     ctr_coord_1dim = all_ctr[0].ContourSequence[sdx].ContourData #슬라이스 넘기면서 Contour좌표데이터 가져옴
     #ctr_color = all_ctr[0].ROIDisplayColor #색깔 불러오기
@@ -24,11 +22,12 @@ while sdx < 21: #len이 안먹혀서
         xi, yi, zi = float(ctr_coord_1dim[idx]), float(ctr_coord_1dim[idx+1]), float(ctr_coord_1dim[idx+2])
         try:xiplus, yiplus, ziplus = float(ctr_coord_1dim[idx+3]), float(ctr_coord_1dim[idx+4]), float(ctr_coord_1dim[idx+5])
         except: xiplus, yiplus, ziplus = float(ctr_coord_1dim[0]), float(ctr_coord_1dim[1]), float(ctr_coord_1dim[2])
-        #예외, xi, yi, zi가 마지막 일경우, 그냥 pass하면 안되고 첫번째 점과 연결을 시켜주어야함.
+        #####예외, xi, yi, zi가 마지막 일경우, 그냥 pass하면 안되고 첫번째 점과 연결을 시켜주어야함.#####
 
         largediff = max([abs(xi-xiplus), abs(yi-yiplus), abs(zi-ziplus)])
-        
-        indiv = int(60 * largediff) #distance에 따라 weight 가 달라짐
+        if largediff < 1: #만약 최대 좌표별 길이 차이가 적게나서 1보다 작을 때 largediff를 기본 내분 갯수에 곱하면 내분 갯수가 기본보다 작아짐.
+            largediff = 1
+        indiv = int(10 * largediff) #distance에 따라 weight 가 달라짐
         
         for jdx in range(1, indiv):
             #내분점 공식
@@ -46,7 +45,7 @@ while sdx < 21: #len이 안먹혀서
 x = []
 y = []   
 z = []  
-flag = 0
+flag = 1
 
 if flag == 0:
     ctrx = []
