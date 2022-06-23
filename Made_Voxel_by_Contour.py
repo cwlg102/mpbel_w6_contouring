@@ -29,8 +29,8 @@ for sdx in range(200):
         
         
         coord_arr = np.append(coord_arr, 
-        [[int(round((ctr_coord_1dim[idx]))), int(round((ctr_coord_1dim[idx+1]))), int(round((ctr_coord_1dim[idx+2])))]],
-        axis = 0)
+        [[(round((ctr_coord_1dim[idx]))), (round((ctr_coord_1dim[idx+1]))), (round((ctr_coord_1dim[idx+2])))]],
+        axis = 0) #voxel화를 위한 것이므로 coord_arr에 추가할 땐 int, (그냥 int하면 내림이 되므로 round 적용시켜서.)
 
         xi, yi, zi = float(ctr_coord_1dim[idx]), float(ctr_coord_1dim[idx+1]), float(ctr_coord_1dim[idx+2])
         try:xiplus, yiplus, ziplus = float(ctr_coord_1dim[idx+3]), float(ctr_coord_1dim[idx+4]), float(ctr_coord_1dim[idx+5])
@@ -41,14 +41,14 @@ for sdx in range(200):
         largedist = ((xi - xiplus)**2 + (yi - yiplus)**2 + (zi - ziplus)**2) ** 0.5
         if largedist < 1: #만약 길이 차이가 적게나서 1보다 작을 때 largedist를 기본 내분 갯수에 곱하면 내분 갯수가 기본보다 작아짐.
             largedist = 1
-        indiv = int(indiv_coeff * largedist) #distance에 따라 weight 가 달라짐
+        indiv = round(indiv_coeff * largedist) #distance에 따라 weight 가 달라짐
         
         for jdx in range(1, indiv):
             #내분점 공식
             coord_arr = np.append(coord_arr, 
-            [[int(round((((indiv-1-jdx)*xi +(jdx+1)*xiplus)/indiv))), 
-            int(round((((indiv-1-jdx)*yi +(jdx+1)*yiplus)/indiv))), 
-            int(round((((indiv-1-jdx)*zi +(jdx+1)*ziplus)/indiv)))]],
+            [[(round((((indiv-1-jdx)*xi +(jdx+1)*xiplus)/indiv))), 
+            (round((((indiv-1-jdx)*yi +(jdx+1)*yiplus)/indiv))), 
+            (round((((indiv-1-jdx)*zi +(jdx+1)*ziplus)/indiv)))]],
             axis = 0)
             
         adx += 1
