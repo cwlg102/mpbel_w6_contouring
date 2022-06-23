@@ -31,6 +31,7 @@ for sdx in range(200):
         coord_arr = np.append(coord_arr, 
         [[(round((ctr_coord_1dim[idx]))), (round((ctr_coord_1dim[idx+1]))), (round((ctr_coord_1dim[idx+2])))]],
         axis = 0) #voxel화를 위한 것이므로 coord_arr에 추가할 땐 int, (그냥 int하면 내림이 되므로 round 적용시켜서.)
+        #np.append를 사용할 땐, append 한 거를 다시 자신에게 초기화 해줘야하고 2차원으로 추가할 땐 [[내용]]이런식으로, 추가할 차원에 맞게 괄호를 열어줘야.
 
         xi, yi, zi = float(ctr_coord_1dim[idx]), float(ctr_coord_1dim[idx+1]), float(ctr_coord_1dim[idx+2])
         try:xiplus, yiplus, ziplus = float(ctr_coord_1dim[idx+3]), float(ctr_coord_1dim[idx+4]), float(ctr_coord_1dim[idx+5])
@@ -65,8 +66,8 @@ zcoord = []
 for _slice in ctr_volume_coord: #voxelnp에 -등으로 되어있는,혹은 범위밖의 좌표값 보정하여 넣어줌.
     Z = abs(_slice[0][2])-150
     zcoord.append(Z)
-    for i in range(len(_slice)):
-        voxelnp[int(Z)][int(abs(_slice[i][1]))][int(_slice[i][0])+256] = 255
+    for point_idx in range(len(_slice)):
+        voxelnp[int(Z)][int(abs(_slice[point_idx][1]))][int(_slice[point_idx][0])+256] = 255
 
 
 zcoord = list(set(zcoord))
