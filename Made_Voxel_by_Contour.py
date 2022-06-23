@@ -9,8 +9,11 @@ sdx = 0
 ctr_volume_coord = [] #일단은 리스트로
 zcoord = []
 #내분점 #좌표끼리 거리마다 weight 주는 방법
-while sdx < 21: #len이 안먹혀서
-    ctr_coord_1dim = all_ctr[0].ContourSequence[sdx].ContourData #슬라이스 넘기면서 Contour좌표데이터 가져옴
+
+for sdx in range(200):
+    try:ctr_coord_1dim = all_ctr[0].ContourSequence[sdx].ContourData #슬라이스 넘기면서 Contour좌표데이터 가져옴
+    except:break
+
     #ctr_color = all_ctr[0].ROIDisplayColor #색깔 불러오기
     coord_arr = np.zeros((1, 3)) #미리 좌표 array 만들어 놓고
     adx = 0
