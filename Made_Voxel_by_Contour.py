@@ -27,7 +27,7 @@ for sdx in range(200):
         #elif joke == 1:
         #    jflag = 0
         
-        
+
         coord_arr = np.append(coord_arr, 
         [[(round((ctr_coord_1dim[idx]))), (round((ctr_coord_1dim[idx+1]))), (round((ctr_coord_1dim[idx+2])))]],
         axis = 0) #voxel화를 위한 것이므로 coord_arr에 추가할 땐 int, (그냥 int하면 내림이 되므로 round 적용시켜서.)
@@ -62,17 +62,12 @@ for sdx in range(200):
 #voxelnp값에 하나하나씩 지정.
 voxelnp = np.zeros((150, 512, 512)) #(z, y, x)순서.
 
-zcoord = []
+zcoord = [] #contour출력을 위해 zcoord 만들어 놓기
 for _slice in ctr_volume_coord: #voxelnp에 -등으로 되어있는,혹은 범위밖의 좌표값 보정하여 넣어줌.
     Z = abs(_slice[0][2])-150
     zcoord.append(Z)
     for point_idx in range(len(_slice)):
         voxelnp[int(Z)][int(abs(_slice[point_idx][1]))][int(_slice[point_idx][0])+256] = 255
-
-
-zcoord = list(set(zcoord))
-for idx in range(len(zcoord)):
-    zcoord[idx] = abs(zcoord[idx])-150
 
 axes = [] 
 fig = plt.figure(figsize = (17, 17))
